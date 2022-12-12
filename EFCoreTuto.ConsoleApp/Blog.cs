@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace EFCoreTuto.ConsoleApp
 {
-    internal class Blog
+    internal class Blog:BaseEntity
+
     {
-        public int Id { get; set; }
         public string Url { get; set; }
 
         public string Title { get; set; }

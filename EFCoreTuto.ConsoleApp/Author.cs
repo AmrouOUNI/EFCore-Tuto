@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace EFCoreTuto.ConsoleApp
 {
-    internal class Author
+    internal class Author : BaseEntity
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }

@@ -3,6 +3,7 @@ using EFCoreTuto.ConsoleApp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EFCoreTuto.ConsoleApp.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    partial class BlogContextModelSnapshot : ModelSnapshot
+    [Migration("20221207082642_seedBlogs")]
+    partial class seedBlogs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +33,11 @@ namespace EFCoreTuto.ConsoleApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -48,15 +53,14 @@ namespace EFCoreTuto.ConsoleApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Title")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("No title");
 
                     b.Property<string>("Url")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -67,7 +71,6 @@ namespace EFCoreTuto.ConsoleApp.Migrations
                         new
                         {
                             Id = 2,
-                            Deleted = false,
                             Url = "https://learn.microsoft.com/en-us/ef/efcore-and-ef6/support"
                         });
                 });
@@ -84,36 +87,20 @@ namespace EFCoreTuto.ConsoleApp.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)")
+                        .HasColumnType("nvarchar(max)")
                         .HasDefaultValue("No title");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BlogId");
 
-                    b.HasIndex("Title");
-
                     b.ToTable("Posts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 100,
-                            BlogId = 2,
-                            Content = "Lorem Ipsum",
-                            Title = "EF Core migarations"
-                        },
-                        new
-                        {
-                            Id = 101,
-                            BlogId = 2,
-                            Content = "Lorem Ipsum",
-                            Title = "EF Core Model"
-                        });
                 });
 
             modelBuilder.Entity("EFCoreTuto.ConsoleApp.Post", b =>

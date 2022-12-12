@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCoreTuto.ConsoleApp.Configurations;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace EFCoreTuto.ConsoleApp
 {
@@ -16,8 +19,15 @@ namespace EFCoreTuto.ConsoleApp
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlServer(connString);
+            options.UseSqlServer(connString)
+                 .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
+                 .EnableSensitiveDataLogging();
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new BlogConfigaration());
+            modelBuilder.ApplyConfiguration(new PostConfiguration());
+        }
     }
 }
